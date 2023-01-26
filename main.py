@@ -179,9 +179,7 @@ def get_cancel() -> ReplyKeyboardMarkup:
 
 @dp.message_handler(Text(equals=['У меню', 'Відмінити']), state="*")
 async def cancel_btn(message: types.Message, state: FSMContext):
-    if state is None:
-        return
-    
+    await ClientStateGroup.main_state.set()
     await state.finish()
     await message.answer("Ви повернулися у меню!", reply_markup=get_main_keyboard())
    
