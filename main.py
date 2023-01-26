@@ -196,7 +196,6 @@ async def start_command(message: types.Message):
 
 @dp.message_handler(Text(equals=['У меню', 'Відмінити']), state="*")
 async def cancel_btn(message: types.Message, state: FSMContext):
-    await ClientStateGroup.main_state.set()
     if state is None:
         return
     
