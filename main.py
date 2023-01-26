@@ -177,7 +177,14 @@ def get_cancel() -> ReplyKeyboardMarkup:
     return kb
 
 
-
+@dp.message_handler(Text(equals=['У меню', 'Відмінити']), state="*")
+async def cancel_btn(message: types.Message, state: FSMContext):
+    if state is None:
+        return
+    
+    await state.finish()
+    await message.answer("Ви повернулися у меню!", reply_markup=get_main_keyboard())
+   
 
 @dp.message_handler(commands = ['start'], state=None)
 async def start_command(message: types.Message):
@@ -190,17 +197,6 @@ async def start_command(message: types.Message):
     else:
         await message.answer(f"Доброго дня, менеджер {message.from_user.full_name}!", reply_markup=get_manager_keyboard())
         await ClientStateGroup.manage_state.set()
-
-
-
-
-@dp.message_handler(Text(equals=['У меню', 'Відмінити']), state="*")
-async def cancel_btn(message: types.Message, state: FSMContext):
-    if state is None:
-        return
-    
-    await state.finish()
-    await message.answer("Ви повернулися у меню!", reply_markup=get_main_keyboard())
 
 
 
